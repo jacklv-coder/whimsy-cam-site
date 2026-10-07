@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F4F1EA">
+  <meta name="description" content="Whimsy Cam — ten retro cameras in your pocket. Choose your language.">
+  <title>Whimsy Cam · 奇想相机</title>
+  <link rel="icon" type="image/png" sizes="256x256" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="language-picker">
+    <img src="icon.png" width="72" height="72" alt="">
+    <h1>Whimsy Cam</h1>
+    <p>Choose your language.</p>
+    <nav aria-label="Choose a language">
+      <ul>
+      <li><a href="zh-hans/index.html" lang="zh-Hans" hreflang="zh-Hans">简体中文</a></li>
+      <li><a href="zh-hant/index.html" lang="zh-Hant" hreflang="zh-Hant">繁體中文</a></li>
+      <li><a href="en/index.html" lang="en" hreflang="en">English</a></li>
+      <li><a href="ja/index.html" lang="ja" hreflang="ja">日本語</a></li>
+      <li><a href="ko/index.html" lang="ko" hreflang="ko">한국어</a></li>
+      </ul>
+    </nav>
+    <footer class="site-footer">
+      <p>© 2026 Jintao Lv</p>
+      <div class="footer-links"><a href="en/privacy.html">Privacy</a><a href="en/support.html">Support</a></div>
+    </footer>
+  </main>
+  <script>
+    // Follow the browser's language preferences; use English as the fallback.
+    const preferences = navigator.languages?.length ? navigator.languages : [navigator.language || 'en'];
+    let destination = 'en';
+    for (const preference of preferences) {
+      const language = preference.toLowerCase().replaceAll('_', '-');
+      if (/^zh(?:-|$)/.test(language)) {
+        destination = /(?:^|-)hant(?:-|$)|(?:^|-)(tw|hk)(?:-|$)/.test(language) ? 'zh-hant' : 'zh-hans';
+        break;
+      }
+      if (/^(en|ja|ko)(?:-|$)/.test(language)) {
+        destination = language.split('-')[0];
+        break;
+      }
+    }
+    window.location.replace(new URL(destination + '/index.html', window.location.href));
+  </script>
+</body>
+</html>
