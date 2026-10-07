@@ -79,8 +79,6 @@ Python 检查使用标准库（Python 3.9+）；语言分流检查使用 Node.js
 
 装饰图不是 App 截图，也不作为相机成片效果的展示。图片已缩小、压缩并移除 EXIF。网站使用系统字体，FAQ 使用原生 `details` / `summary`，15 个内容页无需 JavaScript。
 
-## 发布状态
+## 部署
 
-本次只制作本地文件，没有创建 GitHub 仓库、push 或开启 Pages。BRIEF 指定的 GitHub Issues 联系地址已原样保留；其线上可用性尚未验证。当前沙箱拒绝创建 `.git`，所以本地初始化与首次提交尚未完成。
-
-后续需要在 `.git` 可写的会话中复核提交范围、检查结果，再运行 `git init -b main`，只提交一次。不要把 `.qa/` 或浏览器缓存加入提交。GitHub 写操作不属于本次范围；未来若需配置远端，按用户约定使用 SSH。
+公开仓库为 `jacklv-coder/whimsy-cam-site`。GitHub Pages 从 `main` 分支根目录发布，预期地址为 `https://jacklv-coder.github.io/whimsy-cam-site/`。Git 远端使用 SSH。`.qa/` 是本地检查材料，不进入公开仓库。
