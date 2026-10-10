@@ -40,7 +40,8 @@ class Page(HTMLParser):
 
 
 def check():
-    expected = {ROOT / "index.html"} | {ROOT / lang / page for lang in LANGUAGES for page in PAGES}
+    harmony_privacy = ROOT / "zh-hans/harmony-privacy.html"
+    expected = {ROOT / "index.html", harmony_privacy} | {ROOT / lang / page for lang in LANGUAGES for page in PAGES}
     actual = set(ROOT.glob("*.html")) | {p for lang in LANGUAGES for p in (ROOT / lang).glob("*.html")}
     assert expected == actual, f"Missing/extra pages: {expected ^ actual}"
     parsed = {path: Page(path) for path in sorted(expected)}
@@ -88,6 +89,12 @@ def check():
         lang = path.parent.name
         assert doc.select("html")[0]["lang"] == LANGUAGES[lang], path
         assert not doc.select("script"), path
+        if path == harmony_privacy:
+            assert any(t.get("datetime") == "2026-10-09" for t in doc.select("time")), path
+            assert all(section in doc.ids for section in ("local-content", "permissions", "device-data", "sharing", "storage", "rights", "children", "website")), path
+            assert ISSUES in doc.source and GITHUB_PRIVACY in doc.source, path
+            assert len(doc.select("strong")) >= 2, path
+            continue
         for other, hreflang in LANGUAGES.items():
             matches = [a for a in doc.select("a") if a.get("hreflang") == hreflang]
             assert len(matches) == 1 and matches[0]["href"] == f"../{other}/{path.name}", f"Wrong language switch: {path} -> {other}"
@@ -115,7 +122,7 @@ def check():
     icon = (ROOT / "icon.png").read_bytes()
     assert icon[:8] == b"\x89PNG\r\n\x1a\n" and struct.unpack(">II", icon[16:24]) == (256, 256)
     print(f"PASS: {len(parsed)} HTML pages, {references} local links/resources, 75 same-page language switches.")
-    print("PASS: 60 FAQs, 55 privacy sections, ten camera models per homepage, icon 256×256.")
+    print("PASS: 60 FAQs, 55 iOS + 8 HarmonyOS privacy sections, ten camera models per homepage, icon 256×256.")
     print("PASS: no external resources, scripts, fonts, forms or embedded frames; content pages need no JS.")
     print("External links (not network-validated by this check):")
     for link in sorted(external):
