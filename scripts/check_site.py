@@ -90,7 +90,7 @@ def check():
         assert doc.select("html")[0]["lang"] == LANGUAGES[lang], path
         assert not doc.select("script"), path
         if path == harmony_privacy:
-            assert any(t.get("datetime") == "2026-10-09" for t in doc.select("time")), path
+            assert any(t.get("datetime") == "2026-10-13" for t in doc.select("time")), path
             assert all(section in doc.ids for section in ("local-content", "permissions", "device-data", "sharing", "storage", "rights", "children", "website")), path
             assert ISSUES in doc.source and GITHUB_PRIVACY in doc.source, path
             assert len(doc.select("strong")) >= 2, path
@@ -109,7 +109,7 @@ def check():
             assert "iOS 17" in doc.source and ISSUES in doc.source, path
         elif path.name == "privacy.html":
             assert all(f"policy-{i}" in doc.ids for i in range(1, 12)), path
-            assert any(t.get("datetime") == "2026-10-07" for t in doc.select("time")), path
+            assert any(t.get("datetime") == "2026-10-11" for t in doc.select("time")), path
             assert all(s in doc.source for s in ("Jintao Lv", "iCloud", "Apple", "GitHub Pages", "SDK", ISSUES, GITHUB_PRIVACY)), path
         else:
             assert all(model in doc.source for model in MODELS), path
